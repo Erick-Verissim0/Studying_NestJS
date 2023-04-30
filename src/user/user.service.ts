@@ -22,4 +22,12 @@ export class UserService {
         return this.prisma.user.findMany()
     }
 
+    async readOne(id: number) {
+        return this.prisma.user.findUnique({
+            where: {
+                id
+            }
+        })
+    }
+
 }
