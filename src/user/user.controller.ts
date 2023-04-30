@@ -1,9 +1,10 @@
 import { Controller, Post, Body, Get, Put, Patch, Delete, Param } from '@nestjs/common';
+import { CreateUserDTO } from './dto/create-user.dto';
 
 @Controller('users')
 export class UserController {
   @Post()  // quando não tem virgula é porque ele está decorando e passando para o argumento depois do decorator
-  async create(@Body() body) {
+  async create(@Body() body: CreateUserDTO) {
     return { body };
   }
 
