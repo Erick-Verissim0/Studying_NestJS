@@ -8,7 +8,7 @@ import { UserIdCheckMiddleware } from 'src/middlewares/user-id-check-middleware'
   imports: [PrismaModule],
   controllers: [UserController],
   providers: [UserService], // é a lista de que somente esse módulo terá acesso, ou de arquivos que estejam na mesma pasta
-  exports: [],
+  exports: [UserService],
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

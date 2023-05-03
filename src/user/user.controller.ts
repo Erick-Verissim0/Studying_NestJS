@@ -4,13 +4,14 @@ import { UpdatePutUserDTO } from './dto/update-put-user.dto';
 import { UpdatePatchUserDTO } from './dto/update-patch-user.dto';
 import { UserService } from './user.service';
 import { LogInterceptors } from 'src/interceptors/log.interceptors';
+import { ParamId } from '../decorators/param-id.decorator'
 
 // @UseInterceptors(LogInterceptors) Se quiser que o interceptor pegue todos os Http Methods
 @Controller('users')
 export class UserController {
-
+  
   constructor(private readonly userService: UserService) { }
-
+  
   @UseInterceptors(LogInterceptors)
   @Post()  // quando não tem virgula é porque ele está decorando e passando para o argumento depois do decorator
   async create(@Body() data: CreateUserDTO) {
@@ -23,7 +24,8 @@ export class UserController {
   }
 
   @Get(':id')
-  async readOne(@Param('id', ParseIntPipe) id: number) {
+  async readOne(@ParamId() id: number) {
+    console.log({ id })
     return this.userService.readOne(id)
   }
 
