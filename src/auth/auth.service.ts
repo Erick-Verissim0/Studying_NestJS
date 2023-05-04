@@ -7,6 +7,10 @@ import { AuthRegisterDTO } from "./dto/auth-register.dto";
 
 @Injectable()
 export class AuthService {
+
+    private issuer = 'login';
+    private audience = 'users';
+
     constructor(
         private readonly jwtService: JwtService,
         private readonly prisma: PrismaService,
@@ -23,22 +27,31 @@ export class AuthService {
                 }, {
                     expiresIn: '7 days', // Tempo que o token ficará valido!
                     subject: String(user.id),
-                    issuer: 'login',
-                    audience: 'users'
+                    issuer: this.issuer,
+                    audience: this.audience
                 })
-
         }
     }
 
     async checkToken(token: string) {
         try {
             const data = this.jwtService.verify(token, {
-                audience: 'users',
-                issuer: 'login'
+                issuer: this.issuer,
+                audience: this.audience
             })
             return data
         } catch (error) {
+            console.log('AQUI')
             throw new BadGatewayException(error)
+        }
+    }
+
+    async isValidToken(token: string) {
+        try {
+            this.checkToken(token)
+            return true
+        } catch (error) {
+            return false
         }
     }
 
